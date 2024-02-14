@@ -58,7 +58,6 @@ void setup() {
 void affichageTexte(String texte, int xPos, int yPos, List<String> selection){
   if (selection.contains(texte)){
     fill(fondBtn);
-    System.out.println("test");
   }
   else {
     fill (couleurTexte);
@@ -208,7 +207,9 @@ void ongletsStat(){
 }
 
 void resumee (List<String> selection){
-   fill(fondOnglet);
+   String texteResumee="";
+  
+  fill(fondOnglet);
   rect(0,40,140, height-100);
   fill(fondBtn);
   
@@ -236,11 +237,15 @@ void resumee (List<String> selection){
  
  textSize(20);
  
- if (selection.size()!=0){
-   text(selection.get(0), 20, 150, width-20, 250);
-   QRCode=writeQR(selection.get(0));
-   image(QRCode, 380,1150);
+ for (int i=0; i<selection.size();i++){
+   if (i!=0){
+     texteResumee+="\n\n";
+   }
+    texteResumee+=selection.get(i);
  }
+   text(texteResumee, 20, 150, width-20, 250);
+   QRCode=writeQR(texteResumee);
+   image(QRCode, 380,1150);
 }
 
 void draw(){
@@ -269,11 +274,14 @@ void draw(){
        affichageTexte("Entree3", 200,70+70*2, selection);
        affichageTexte("Entree4", 200,70+70*3, selection);
        affichageTexte("Entree5", 200,70+70*4, selection);
+       
+       /*
        affichageTexte("Entree6", 200,70+70*5, selection);
        affichageTexte("Entree7", 200,70+70*6, selection);
        affichageTexte("Entree8", 200,70+70*7, selection);
        affichageTexte("Entree9", 200,70+70*8, selection);
        affichageTexte("Entree10", 200,70+70*9, selection);
+       */
        
        
        break;
@@ -389,9 +397,17 @@ void draw(){
   }
  
 }
+void selectionItem(String texteItem){
+  int indexElement=selection.indexOf(texteItem);
+   if (indexElement!=-1){
+       selection.remove(indexElement);
+     }
+     else{
+       selection.add(texteItem);
+     }
+}
 
  void mouseClicked() {
-   int indexElement;
    
    switch(carteStats){
      
@@ -435,7 +451,7 @@ void draw(){
              System.out.println("test boissons carte");
      }
      
-      else if (mouseY>=height-100 && mouseX<=140 && mouseY<=height-24 && selection!=null){
+      else if (mouseY>=height-100 && mouseX<=140 && mouseY<=height-24 && selection.size()!=0){
          carteStats=CARTE_STATS.RESUMEE;
              System.out.println("test valider carte");
      }
@@ -509,27 +525,104 @@ void draw(){
      break;
    }
    // Selection et deselection d'item
-   if (categCarte==CATEG_CARTE.ENTREES&& mouseY>=50 && mouseX<=300 && mouseY<=90 && mouseX>=180){
-       indexElement=selection.indexOf("Entree1");
-     if (indexElement!=-1){
-         selection.remove(indexElement);
-       }
-       else{
-         selection.add("Entree1");
-       }
+   
+   if (categCarte==CATEG_CARTE.PLATJ && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
+     selectionItem("Plat du jour");
+      }
+   
+   else if (categCarte==CATEG_CARTE.ENTREES && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
+        selectionItem("Entree1");
+      }
+      
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Entree2");
         
       }
-      /*
-     else if (categCarte==CATEG_CARTE.ENTREES&& mouseY>=50 && mouseX<=300 && mouseY<=90 && mouseX>=180){
-       indexElement=selection.indexOf("Entree2");
-     if (indexElement!=-1){
-         selection.remove(indexElement);
-       }
-       else{
-         selection.add("Entree2");
-          text("Entree2", 200,70);
-       }
+      
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Entree3");
+      }
+       
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Entree4");
         
       }
-      */
+      
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
+       selectionItem("Entree5");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.PLATS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Plat1");
+        
+      }
+      
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Plat2");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Plat3");
+      }
+       
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Plat4");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Plat5");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.DESSERTS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Dessert1");
+        
+      }
+      
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Dessert2");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Dessert3");
+      }
+       
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Dessert4");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Dessert5");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.BOISSONS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Boisson1");
+        
+      }
+      
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Boisson2");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Boisson3");
+      }
+       
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Boisson4");
+        
+      }
+      
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Boisson5");
+        
+      }
+      
 }
