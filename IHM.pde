@@ -235,10 +235,12 @@ void resumee (List<String> selection){
  text("Resumee", 20, 50, width-20, 100);
  
  textSize(20);
-  text(selection.get(0), 20, 150, width-20, 250);
-  
+ 
+ if (selection.size()!=0){
+   text(selection.get(0), 20, 150, width-20, 250);
    QRCode=writeQR(selection.get(0));
    image(QRCode, 380,1150);
+ }
 }
 
 void draw(){
@@ -254,6 +256,8 @@ void draw(){
        case PLATJ:
         background(bg);
        ongletsCarte();
+       affichageTexte("Plat du jour", 200,70, selection);
+       
        break;
        
        case ENTREES:
@@ -278,18 +282,37 @@ void draw(){
         background(bg);
         ongletsCarte();
         
+       affichageTexte("Plat1", 200,70, selection);
+       affichageTexte("Plat2", 200,70+70, selection);
+       affichageTexte("Plat3", 200,70+70*2, selection);
+       affichageTexte("Plat4", 200,70+70*3, selection);
+       affichageTexte("Plat5", 200,70+70*4, selection);
+        
        
        break;
        
        case DESSERTS:
         background(bg);
         ongletsCarte();
+        
+       affichageTexte("Dessert1", 200,70, selection);
+       affichageTexte("Dessert2", 200,70+70, selection);
+       affichageTexte("Dessert3", 200,70+70*2, selection);
+       affichageTexte("Dessert4", 200,70+70*3, selection);
+       affichageTexte("Dessert5", 200,70+70*4, selection);
        
        break;
        
        case BOISSONS:
        background(bg);
        ongletsCarte();
+       
+       affichageTexte("Boisson1", 200,70, selection);
+       affichageTexte("Boisson2", 200,70+70, selection);
+       affichageTexte("Boisson3", 200,70+70*2, selection);
+       affichageTexte("Boisson4", 200,70+70*3, selection);
+       affichageTexte("Boisson5", 200,70+70*4, selection);
+       
        break;
        
    }
@@ -305,11 +328,15 @@ void draw(){
      case TOUT:
         background(bg);
        ongletsStat();
+       
+       text("STAT TOUT", 200,70);
        break;
      
        case PLATJ:
         background(bg);
        ongletsStat();
+       
+       text("STAT PlatJ", 200,70);
        break;
        
        case ENTREES:
@@ -327,18 +354,24 @@ void draw(){
         background(bg);
         ongletsStat();
         
+        text("STAT Plats", 200,70);
+        
        
        break;
        
        case DESSERTS:
         background(bg);
         ongletsStat();
+        
+        text("STAT dessert", 200,70);
        
        break;
        
        case BOISSONS:
        background(bg);
        ongletsStat();
+       
+       text("STAT boissons", 200,70);
        break;
        
    }
@@ -475,7 +508,7 @@ void draw(){
     case VALIDER:
      break;
    }
-   
+   // Selection et deselection d'item
    if (categCarte==CATEG_CARTE.ENTREES&& mouseY>=50 && mouseX<=300 && mouseY<=90 && mouseX>=180){
        indexElement=selection.indexOf("Entree1");
      if (indexElement!=-1){
@@ -483,9 +516,20 @@ void draw(){
        }
        else{
          selection.add("Entree1");
-          System.out.println("here");
-          text("Entree1", 200,70);
        }
         
       }
+      /*
+     else if (categCarte==CATEG_CARTE.ENTREES&& mouseY>=50 && mouseX<=300 && mouseY<=90 && mouseX>=180){
+       indexElement=selection.indexOf("Entree2");
+     if (indexElement!=-1){
+         selection.remove(indexElement);
+       }
+       else{
+         selection.add("Entree2");
+          text("Entree2", 200,70);
+       }
+        
+      }
+      */
 }
