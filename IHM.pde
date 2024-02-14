@@ -32,10 +32,12 @@ public enum CATEG_STATS {
 }
   color bg=color(34, 38, 41);
   color fondBtn=color(134, 194, 50);
-  color texte=color(255,255,255);
+  color couleurTexte=color(255,255,255);
   color fondOnglet=color(107, 110, 112);
+  color fontBtnGrayedOut=color(58, 79, 31);
    
   int tailleBtn=100;
+  List<String> selection = new ArrayList<>();
   
   PImage QRCode;
 
@@ -53,6 +55,17 @@ void setup() {
 
 }
 
+void affichageTexte(String texte, int xPos, int yPos, List<String> selection){
+  if (selection.contains(texte)){
+    fill(fondBtn);
+    System.out.println("test");
+  }
+  else {
+    fill (couleurTexte);
+}
+    text(texte, xPos, yPos);
+}
+
 void ongletsCarte(){
   
   fill(fondOnglet);
@@ -61,7 +74,7 @@ void ongletsCarte(){
   
   // Retour
   rect(0,10,80,30);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Retour", 10,10,60,20);
   
@@ -69,14 +82,14 @@ void ongletsCarte(){
   
   //PlatJ
   rect(0,60,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Plat du Jour", 10,60,140,tailleBtn);
   
   fill(fondBtn);
   // Entrees
   rect(0,80+tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Entrees", 10,80+tailleBtn,140, tailleBtn);
   
@@ -84,7 +97,7 @@ void ongletsCarte(){
   
   //Plats
   rect(0,100+2*tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Plats", 10,100+2*tailleBtn,140, tailleBtn);
   
@@ -92,7 +105,7 @@ void ongletsCarte(){
   
   // Desserts
   rect(0,120+3*tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Dessert", 10,120+3*tailleBtn,140, tailleBtn);
   
@@ -101,16 +114,20 @@ void ongletsCarte(){
   // Boissons
   rect(0,140+4*tailleBtn,140, tailleBtn);
    fill(fondBtn);
-   fill(texte);
+   fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Boissons", 10,140+4*tailleBtn,140, tailleBtn);
   
+  if (selection.size()!=0){
   fill(fondBtn);
-  
+  }
+  else {
+  fill(fontBtnGrayedOut);
+  }
   
    // Valider
   rect(0,height-100,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Valider", 10,height-100,140, tailleBtn);
   
@@ -119,7 +136,7 @@ void ongletsCarte(){
   // Stats
   rect(0,height-120-tailleBtn,140, tailleBtn);
    fill(fondBtn);
-   fill(texte);
+   fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Stats", 10,height-120-tailleBtn,140, tailleBtn);
   
@@ -136,7 +153,7 @@ void ongletsStat(){
   
   // Retour
   rect(0,10,80,30);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Retour", 10,10,60,20);
   
@@ -144,14 +161,14 @@ void ongletsStat(){
   
   //Tout
   rect(0,60,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Tout", 10,60,140,tailleBtn);
   
   fill(fondBtn);
   // PlatsJ
   rect(0,80+tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Plats du jour", 10,80+tailleBtn,140, tailleBtn);
   
@@ -159,7 +176,7 @@ void ongletsStat(){
   
   //Entrees
   rect(0,100+2*tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Entrees", 10,100+2*tailleBtn,140, tailleBtn);
   
@@ -167,7 +184,7 @@ void ongletsStat(){
   
   // Plats
   rect(0,120+3*tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Plats", 10,120+3*tailleBtn,140, tailleBtn);
   
@@ -175,7 +192,7 @@ void ongletsStat(){
   
   // Desserts
   rect(0,140+4*tailleBtn,140, tailleBtn);
-   fill(texte);
+   fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Desserts", 10,140+4*tailleBtn,140, tailleBtn);
   
@@ -183,21 +200,21 @@ void ongletsStat(){
     
    // Boissons
   rect(0,160+5*tailleBtn,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Boissons", 10,140+5*tailleBtn,140, tailleBtn);
   
   
 }
 
-void resumee (String selection){
+void resumee (List<String> selection){
    fill(fondOnglet);
   rect(0,40,140, height-100);
   fill(fondBtn);
   
   // Retour
   rect(0,10,80,30);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Retour", 10,10,60,20);
   
@@ -205,19 +222,23 @@ void resumee (String selection){
   
    // Valider
   rect(0,height-100,140, tailleBtn);
-  fill(texte);
+  fill(couleurTexte);
   textAlign(LEFT,CENTER);
   text("Valider", 10,height-100,140, tailleBtn);
   
   fill(fondBtn);
   
   
-  fill(texte);
+  fill(couleurTexte);
  textSize(50);
  textAlign(CENTER);
  text("Resumee", 20, 50, width-20, 100);
+ 
  textSize(20);
-  text(selection, 20, 150, width-20, 250);
+  text(selection.get(0), 20, 150, width-20, 250);
+  
+   QRCode=writeQR(selection.get(0));
+   image(QRCode, 380,1150);
 }
 
 void draw(){
@@ -238,18 +259,17 @@ void draw(){
        case ENTREES:
         background(bg);
         ongletsCarte();
-        
-       fill(texte);
-       text("Entree1", 200,70);
-       text("Entree2", 200,70+50);
-       text("Entree3", 200,70+50*2);
-       text("Entree4", 200,70+50*3);
-       text("Entree5", 200,70+50*4);
-       text("Entree6", 200,70+50*5);
-       text("Entree7", 200,70+50*6);
-       text("Entree8", 200,70+50*7);
-       text("Entree9", 200,70+50*8);
-       text("Entree10", 200,70+50*9);
+       
+       affichageTexte("Entree1", 200,70, selection);
+       affichageTexte("Entree2", 200,70+70, selection);
+       affichageTexte("Entree3", 200,70+70*2, selection);
+       affichageTexte("Entree4", 200,70+70*3, selection);
+       affichageTexte("Entree5", 200,70+70*4, selection);
+       affichageTexte("Entree6", 200,70+70*5, selection);
+       affichageTexte("Entree7", 200,70+70*6, selection);
+       affichageTexte("Entree8", 200,70+70*7, selection);
+       affichageTexte("Entree9", 200,70+70*8, selection);
+       affichageTexte("Entree10", 200,70+70*9, selection);
        
        
        break;
@@ -296,7 +316,7 @@ void draw(){
         background(bg);
         ongletsStat();
         
-       fill(texte);
+       fill(couleurTexte);
        text("STAT1", 200,70);
        text("STATS", 200,70+50);
        
@@ -326,8 +346,7 @@ void draw(){
    
    case RESUMEE:
    background(bg);
-   resumee("entree1");
-   QRCode=writeQR("entree1");
+   resumee(selection);
    break;
    
    case VALIDER:
@@ -339,7 +358,7 @@ void draw(){
 }
 
  void mouseClicked() {
-   
+   int indexElement;
    
    switch(carteStats){
      
@@ -363,6 +382,7 @@ void draw(){
      else if (mouseY>=80+tailleBtn && mouseX<=140 && mouseY<=(2*tailleBtn+80)){
        categCarte=CATEG_CARTE.ENTREES;
            System.out.println("test entrees carte");
+        
      }
      
       //Plats
@@ -382,7 +402,7 @@ void draw(){
              System.out.println("test boissons carte");
      }
      
-      else if (mouseY>=height-100 && mouseX<=140 && mouseY<=height-24){
+      else if (mouseY>=height-100 && mouseX<=140 && mouseY<=height-24 && selection!=null){
          carteStats=CARTE_STATS.RESUMEE;
              System.out.println("test valider carte");
      }
@@ -455,4 +475,17 @@ void draw(){
     case VALIDER:
      break;
    }
+   
+   if (categCarte==CATEG_CARTE.ENTREES&& mouseY>=50 && mouseX<=300 && mouseY<=90 && mouseX>=180){
+       indexElement=selection.indexOf("Entree1");
+     if (indexElement!=-1){
+         selection.remove(indexElement);
+       }
+       else{
+         selection.add("Entree1");
+          System.out.println("here");
+          text("Entree1", 200,70);
+       }
+        
+      }
 }
