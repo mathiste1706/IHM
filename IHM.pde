@@ -1,6 +1,5 @@
 import processing.video.*;
 import java.awt.image.BufferedImage;
-Capture cam;
 
 CARTE_STATS carteStats;
 CATEG_CARTE categCarte;
@@ -37,6 +36,7 @@ public enum CATEG_STATS {
   color fontBtnGrayedOut=color(58, 79, 31);
    
   int tailleBtn=100;
+  int tailleTab=250;
   List<String> selection = new ArrayList<>();
   
   PImage QRCode;
@@ -51,18 +51,27 @@ void setup() {
  
  textSize(20);
  tailleBtn=(height-20)/10;
-//cam = new Capture(this, 640, 480);
 
 }
 
-void affichageTexte(String texte, int xPos, int yPos, List<String> selection){
+void affichageTexteTabule(String texte, int xPosMin, int yPos, int xPosMax, color couleur){
+  fill(couleur);
+  String [] texteScinde=texte.split("\t");
+  textAlign(CENTER);
+  text(texteScinde[0], xPosMin, yPos, xPosMax, yPos+50);
+  text(texteScinde[1], xPosMin+tailleTab, yPos, xPosMax+tailleTab, yPos+50);
+
+}
+
+void affichageTexte(String texte, int xPosMin, int yPos, int xPosMax, List<String> selection){
+  color couleur;
   if (selection.contains(texte)){
-    fill(fondBtn);
+    couleur=fondBtn;
   }
   else {
-    fill (couleurTexte);
+    couleur=couleurTexte;
 }
-    text(texte, xPos, yPos);
+    affichageTexteTabule(texte, xPosMin, yPos, xPosMax, couleur);
 }
 
 void ongletsCarte(){
@@ -207,7 +216,8 @@ void ongletsStat(){
 }
 
 void resumee (List<String> selection){
-   String texteResumee="";
+   String texteResumeeQRCode="";
+   int espaceLigne=100;
   
   fill(fondOnglet);
   rect(0,40,140, height-100);
@@ -239,12 +249,13 @@ void resumee (List<String> selection){
  
  for (int i=0; i<selection.size();i++){
    if (i!=0){
-     texteResumee+="\n\n";
+     texteResumeeQRCode+="\n\n";
    }
-    texteResumee+=selection.get(i);
+    texteResumeeQRCode+=selection.get(i);
+    affichageTexteTabule(selection.get(i), 200,150+i*espaceLigne, width-20,couleurTexte);
  }
-   text(texteResumee, 20, 150, width-20, 250);
-   QRCode=writeQR(texteResumee);
+   
+   QRCode=writeQR(texteResumeeQRCode);
    image(QRCode, 380,1150);
 }
 
@@ -261,7 +272,7 @@ void draw(){
        case PLATJ:
         background(bg);
        ongletsCarte();
-       affichageTexte("Plat du jour", 200,70, selection);
+       affichageTexte("Plat du jour\t5.00€", 200,70,250, selection);
        
        break;
        
@@ -269,11 +280,11 @@ void draw(){
         background(bg);
         ongletsCarte();
        
-       affichageTexte("Entree1", 200,70, selection);
-       affichageTexte("Entree2", 200,70+70, selection);
-       affichageTexte("Entree3", 200,70+70*2, selection);
-       affichageTexte("Entree4", 200,70+70*3, selection);
-       affichageTexte("Entree5", 200,70+70*4, selection);
+       affichageTexte("Melon\t2.50€", 200,70, 250, selection);
+       affichageTexte("Jambon blanc\t3.00€", 200,70+70, 250, selection);
+       affichageTexte("Jambon du pays\t300€", 200,70+70*2,250, selection);
+       affichageTexte("Salade\t1.00€", 200,70+70*3,250, selection);
+       affichageTexte("Tomates\t2.00€", 200,70+70*4,250, selection);
        
        /*
        affichageTexte("Entree6", 200,70+70*5, selection);
@@ -290,11 +301,11 @@ void draw(){
         background(bg);
         ongletsCarte();
         
-       affichageTexte("Plat1", 200,70, selection);
-       affichageTexte("Plat2", 200,70+70, selection);
-       affichageTexte("Plat3", 200,70+70*2, selection);
-       affichageTexte("Plat4", 200,70+70*3, selection);
-       affichageTexte("Plat5", 200,70+70*4, selection);
+       affichageTexte("Plat1\t10.00€", 200,70,250, selection);
+       affichageTexte("Plat2\t12.00€", 200,70+70,250, selection);
+       affichageTexte("Plat3\t16.00€", 200,70+70*2,250, selection);
+       affichageTexte("Plat4\t15.00€", 200,70+70*3, 250, selection);
+       affichageTexte("Plat5\t13.25€", 200,70+70*4, 250,selection);
         
        
        break;
@@ -303,11 +314,11 @@ void draw(){
         background(bg);
         ongletsCarte();
         
-       affichageTexte("Dessert1", 200,70, selection);
-       affichageTexte("Dessert2", 200,70+70, selection);
-       affichageTexte("Dessert3", 200,70+70*2, selection);
-       affichageTexte("Dessert4", 200,70+70*3, selection);
-       affichageTexte("Dessert5", 200,70+70*4, selection);
+       affichageTexte("Dessert1\t10€", 200,70,250, selection);
+       affichageTexte("Dessert2\t8.00€", 200,70+70,250, selection);
+       affichageTexte("Dessert3\t5.00€", 200,70+70*2, 250, selection);
+       affichageTexte("Dessert4\t7.00€", 200,70+70*3,250, selection);
+       affichageTexte("Dessert5\t11€", 200,70+70*4,250, selection);
        
        break;
        
@@ -315,11 +326,11 @@ void draw(){
        background(bg);
        ongletsCarte();
        
-       affichageTexte("Boisson1", 200,70, selection);
-       affichageTexte("Boisson2", 200,70+70, selection);
-       affichageTexte("Boisson3", 200,70+70*2, selection);
-       affichageTexte("Boisson4", 200,70+70*3, selection);
-       affichageTexte("Boisson5", 200,70+70*4, selection);
+       affichageTexte("Boisson1\t2.00€", 200,70, 250, selection);
+       affichageTexte("Boisson2\t5.00€", 200,70+70, 250, selection);
+       affichageTexte("Boisson3\t1.00€", 200,70+70*2, 250, selection);
+       affichageTexte("Boisson4\t0.50€", 200,70+70*3, 250, selection);
+       affichageTexte("Boisson5\t0.75€", 200,70+70*4, 250, selection);
        
        break;
        
@@ -525,103 +536,102 @@ void selectionItem(String texteItem){
      break;
    }
    // Selection et deselection d'item
-   
-   if (categCarte==CATEG_CARTE.PLATJ && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
-     selectionItem("Plat du jour");
+   if (categCarte==CATEG_CARTE.PLATJ && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+     selectionItem("Plat du jour\t5.00€");
       }
    
-   else if (categCarte==CATEG_CARTE.ENTREES && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
-        selectionItem("Entree1");
+   else if (categCarte==CATEG_CARTE.ENTREES && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+        selectionItem("Melon\t3.00€");
       }
       
-     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
-       selectionItem("Entree2");
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Jambon blanc\t3.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
-       selectionItem("Entree3");
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Jambon du pays\t3.00€");
       }
        
-     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
-       selectionItem("Entree4");
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Salade\t1.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
-       selectionItem("Entree5");
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+       selectionItem("Tomates\t2.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
-       selectionItem("Plat1");
+      else if (categCarte==CATEG_CARTE.PLATS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Plat1\t10.00€");
         
       }
       
-     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
-       selectionItem("Plat2");
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Plat2\t12.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
-       selectionItem("Plat3");
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Plat3\t16.00€");
       }
        
-     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
-       selectionItem("Plat4");
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Plat4\t15.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
-      selectionItem("Plat5");
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Plat5\t13.25€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
-       selectionItem("Dessert1");
+      else if (categCarte==CATEG_CARTE.DESSERTS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Dessert1\t10€");
         
       }
       
-     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
-       selectionItem("Dessert2");
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Dessert2\t8.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
-       selectionItem("Dessert3");
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Dessert3\t5.00€");
       }
        
-     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
-       selectionItem("Dessert4");
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Dessert4\t7.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
-      selectionItem("Dessert5");
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Dessert5\t11€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS && mouseY>=70-20 && mouseX<=300 && mouseY<=70+20 && mouseX>=200-20){
-       selectionItem("Boisson1");
+      else if (categCarte==CATEG_CARTE.BOISSONS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+       selectionItem("Boisson1\t2.00€");
         
       }
       
-     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=2*70-20 && mouseX<=300 && mouseY<=2*70+20 && mouseX>=200-20){
-       selectionItem("Boisson2");
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+       selectionItem("Boisson2\t5.00€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=3*70-20 && mouseX<=300 && mouseY<=3*70+20 && mouseX>=200-20){
-       selectionItem("Boisson3");
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+       selectionItem("Boisson3\t1.00€");
       }
        
-     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=4*70-20 && mouseX<=300 && mouseY<=4*70+20 && mouseX>=200-20){
-       selectionItem("Boisson4");
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+       selectionItem("Boisson4\t0.50€");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=5*70-20 && mouseX<=300 && mouseY<=5*70+20 && mouseX>=200-20){
-      selectionItem("Boisson5");
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      selectionItem("Boisson5\t0.75€");
         
       }
       
