@@ -1,4 +1,3 @@
-import processing.video.*;
 import java.awt.image.BufferedImage;
 
 CARTE_STATS carteStats;
@@ -37,12 +36,13 @@ public enum CATEG_STATS {
    
   int tailleBtn=100;
   int tailleTab=250;
+  int espaceLigne=70;
   List<String> selection = new ArrayList<>();
   
   PImage QRCode;
 
 void setup() {
- size(780,1280);
+ size(780,1000);
  background(bg);;
  
  carteStats=CARTE_STATS.CARTE;
@@ -217,7 +217,9 @@ void ongletsStat(){
 
 void resumee (List<String> selection){
    String texteResumeeQRCode="";
-   int espaceLigne=100;
+   String textePrix="";
+   int prixTotal=0;
+   int prixItem=0;
   
   fill(fondOnglet);
   rect(0,40,140, height-100);
@@ -244,6 +246,8 @@ void resumee (List<String> selection){
  textSize(50);
  textAlign(CENTER);
  text("Resumee", 20, 50, width-20, 100);
+ textAlign(LEFT);
+ text("Total", 200, height-250, width-20, 100);
  
  textSize(20);
  
@@ -251,12 +255,14 @@ void resumee (List<String> selection){
    if (i!=0){
      texteResumeeQRCode+="\n\n";
    }
-    texteResumeeQRCode+=selection.get(i);
-    affichageTexteTabule(selection.get(i), 200,150+i*espaceLigne, width-20,couleurTexte);
+    texteResumeeQRCode+=selection.get(i).substring(0, selection.get(i).length() - 1)+" EUR";
+    affichageTexteTabule(selection.get(i), -100,150+i*espaceLigne, width-20,couleurTexte);
+    textePrix=selection.get(i).split("\t");
+    prixItem=textePrix.substring(0, textePrix.size()-1);
  }
    
    QRCode=writeQR(texteResumeeQRCode);
-   image(QRCode, 380,1150);
+   image(QRCode, width/2-10,height-130);
 }
 
 void draw(){
@@ -282,7 +288,7 @@ void draw(){
        
        affichageTexte("Melon\t2.50€", 200,70, 250, selection);
        affichageTexte("Jambon blanc\t3.00€", 200,70+70, 250, selection);
-       affichageTexte("Jambon du pays\t300€", 200,70+70*2,250, selection);
+       affichageTexte("Jambon du pays\t3.00€", 200,70+70*2,250, selection);
        affichageTexte("Salade\t1.00€", 200,70+70*3,250, selection);
        affichageTexte("Tomates\t2.00€", 200,70+70*4,250, selection);
        
@@ -535,103 +541,125 @@ void selectionItem(String texteItem){
     case VALIDER:
      break;
    }
+   System.out.println("X: "+mouseX);
+   System.out.println("Y: "+mouseY);
    // Selection et deselection d'item
-   if (categCarte==CATEG_CARTE.PLATJ && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+   if (categCarte==CATEG_CARTE.PLATJ && mouseY>=espaceLigne-20 && mouseX<=735 && mouseY<=espaceLigne+20 && mouseX>=200-20){
      selectionItem("Plat du jour\t5.00€");
+     System.out.println("PlatJ");
       }
    
-   else if (categCarte==CATEG_CARTE.ENTREES && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
-        selectionItem("Melon\t3.00€");
+   else if (categCarte==CATEG_CARTE.ENTREES && mouseY>=-20 && mouseX<=735 && mouseY<=espaceLigne+20 && mouseX>=200-20){
+        selectionItem("Melon\t2.50€");
+        System.out.println("Melon");
       }
       
-     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=2*espaceLigne-20 && mouseX<=735 && mouseY<=2*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Jambon blanc\t3.00€");
+       System.out.println("JB");
         
       }
       
-      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=3*espaceLigne-20 && mouseX<=735 && mouseY<=3*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Jambon du pays\t3.00€");
+       System.out.println("JP");
       }
        
-     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=4*espaceLigne-20 && mouseX<=735 && mouseY<=4*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Salade\t1.00€");
+       System.out.println("Salade");
         
       }
       
-      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.ENTREES &&  mouseY>=5*espaceLigne-20 && mouseX<=735 && mouseY<=5*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Tomates\t2.00€");
+       System.out.println("Tomates");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.PLATS && mouseY>=espaceLigne-20 && mouseX<=735 && mouseY<=espaceLigne+20 && mouseX>=200-20){
        selectionItem("Plat1\t10.00€");
+       System.out.println("Plat1");
         
       }
       
-     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=2*espaceLigne-20 && mouseX<=735 && mouseY<=2*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Plat2\t12.00€");
+       System.out.println("Plat2");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=3*espaceLigne-20 && mouseX<=735 && mouseY<=3*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Plat3\t16.00€");
+       System.out.println("Plat3");
       }
        
-     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=4*espaceLigne-20 && mouseX<=735 && mouseY<=4*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Plat4\t15.00€");
+       System.out.println("Plat4");
         
       }
       
-      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.PLATS &&  mouseY>=5*espaceLigne-20 && mouseX<=735 && mouseY<=5*espaceLigne+20 && mouseX>=200-20){
       selectionItem("Plat5\t13.25€");
+      System.out.println("Plat5");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.DESSERTS && mouseY>=espaceLigne-20 && mouseX<=735 && mouseY<=espaceLigne+20 && mouseX>=200-20){
        selectionItem("Dessert1\t10€");
+       System.out.println("Dessert1");
         
       }
       
-     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=2*espaceLigne-20 && mouseX<=735 && mouseY<=2*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Dessert2\t8.00€");
+       System.out.println("Dessert2");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=3*espaceLigne-20 && mouseX<=735 && mouseY<=3*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Dessert3\t5.00€");
+       System.out.println("Dessert3");
       }
        
-     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=4*espaceLigne-20 && mouseX<=735 && mouseY<=4*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Dessert4\t7.00€");
+       System.out.println("Dessert4");
         
       }
       
-      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.DESSERTS &&  mouseY>=5*espaceLigne-20 && mouseX<=735 && mouseY<=5*espaceLigne+20 && mouseX>=200-20){
       selectionItem("Dessert5\t11€");
+      System.out.println("Dessert5");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS && mouseY>=70-20 && mouseX<=735 && mouseY<=70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.BOISSONS && mouseY>=espaceLigne-20 && mouseX<=735 && mouseY<=espaceLigne+20 && mouseX>=200-20){
        selectionItem("Boisson1\t2.00€");
-        
+       System.out.println("Boisson1"); 
       }
       
-     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=2*70-20 && mouseX<=735 && mouseY<=2*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=2*espaceLigne-20 && mouseX<=735 && mouseY<=2*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Boisson2\t5.00€");
+       System.out.println("Boisson2");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=3*70-20 && mouseX<=735 && mouseY<=3*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=3*espaceLigne-20 && mouseX<=735 && mouseY<=3*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Boisson3\t1.00€");
+       System.out.println("Boisson3");
       }
        
-     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=4*70-20 && mouseX<=735 && mouseY<=4*70+20 && mouseX>=200-20){
+     else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=4*espaceLigne-20 && mouseX<=735 && mouseY<=4*espaceLigne+20 && mouseX>=200-20){
        selectionItem("Boisson4\t0.50€");
+       System.out.println("Boisson4");
         
       }
       
-      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=5*70-20 && mouseX<=735 && mouseY<=5*70+20 && mouseX>=200-20){
+      else if (categCarte==CATEG_CARTE.BOISSONS &&  mouseY>=5*espaceLigne-20 && mouseX<=735 && mouseY<=5*espaceLigne+20 && mouseX>=200-20){
       selectionItem("Boisson5\t0.75€");
+      System.out.println("Boisson5");
         
       }
       
